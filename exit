@@ -1,0 +1,24 @@
+[33mcommit 34b7ef4e6c9a7ed0231c120711205b6c27122cf8[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m)[m
+Merge: 1170350 d81390d
+Author: Van Philip Panugan <panuganvanphilip@gmail.com>
+Date:   Sat Oct 28 22:35:13 2023 +0800
+
+    Merge branch 'main' of https://github.com/VPpexis/serverless-training
+
+[33mcommit 117035004b14c0c575b1e166dc1e81423af41cd1[m
+Author: Van Philip Panugan <panuganvanphilip@gmail.com>
+Date:   Sat Oct 28 22:34:29 2023 +0800
+
+    study progress 01
+
+[33mcommit d81390decbac492d0175d4d798359bdb8ab20468[m[33m ([m[1;31morigin/main[m[33m)[m
+Author: Van Philip Panugan <panuganvanphilip@gmail.com>
+Date:   Sat Oct 28 18:25:10 2023 +0800
+
+    Create README.md
+
+[33mcommit c61bfc6f4edadabc802d53e7007cea0cd2f52a1d[m
+Author: Van Philip Panugan <panuganvanphilip@gmail.com>
+Date:   Sat Oct 28 18:23:33 2023 +0800
+
+    initial commit
