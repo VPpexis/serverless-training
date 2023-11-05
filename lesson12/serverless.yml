@@ -1,0 +1,30 @@
+
+service: lesson12
+
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+
+functions:
+  hello:
+    handler: handler.hello
+
+resources:
+  Resources:
+    myAssumeRole:
+      Type: AWS::IAM::Role
+      Properties:
+        RoleName: myAssumeRole
+        AssumeRolePolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+            - Effect: Allow
+              Principal: # Tells who can use this role
+                Service:
+                  - lambda.amazonaws.com
+                  - apigateway.amazonaws.com
+              Action:
+                - sts:AssumeRole
+                  

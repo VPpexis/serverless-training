@@ -1,0 +1,24 @@
+
+service: lesson10
+
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+
+functions:
+  proxy:
+    handler: lambdas/endpoints/proxy.handler
+    events:
+      - http:
+          path: chuck-norris/{proxy+} #Multiple layers of proxy integrations
+          method: ANY
+          integration: http-proxy
+          request:
+            uri: https://api.chucknorris.io/{proxy}
+            parameters:
+              paths:
+                proxy: true
+
+

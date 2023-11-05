@@ -1,0 +1,74 @@
+
+
+service: lesson9
+
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  runtime: nodejs16.x
+  apiGateway:
+    apiKeys:
+      - free:
+          - myFreeApiKey
+      - paid:
+          - myPaidApiKey
+    usagePlan:
+        - free:
+            quota:  # Set the quota of request.
+              limit: 1000
+              period: MONTH
+            throttle: # Limits the amount of request of seconds. Stops API from DDOS
+              rateLimit: 5 #sets the request of seconds
+              burstLimit: 20
+        - paid:
+            quota:
+              limit: 10000
+              period: MONTH
+            throttle:
+              rateLimit: 50
+              burstLimit: 200
+
+# you can overwrite defaults here
+#  stage: dev
+#  region: us-east-1
+
+# you can add statements to the Lambda function's IAM Role here
+#  iam:
+#    role:
+#      statements:
+#        - Effect: "Allow"
+#          Action:
+#            - "s3:ListBucket"
+#          Resource: { "Fn::Join" : ["", ["arn:aws:s3:::", { "Ref" : "ServerlessDeploymentBucket" } ] ]  }
+#        - Effect: "Allow"
+#          Action:
+#            - "s3:PutObject"
+#          Resource:
+#            Fn::Join:
+#              - ""
+#              - - "arn:aws:s3:::"
+#                - "Ref" : "ServerlessDeploymentBucket"
+#                - "/*"
+
+# you can define service wide environment variables here
+#  environment:
+#    variable1: value1
+
+# you can add packaging information here
+#package:
+#  patterns:
+#    - '!exclude-me.js'
+#    - '!exclude-me-dir/**'
+#    - include-me.js
+#    - include-me-dir/**
+
+functions:
+  hello:
+    handler: handler.hello
+    events:
+      - http:
+          path: hello
+          method: GET
+          cors: true
+          private: true
