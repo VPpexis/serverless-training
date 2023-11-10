@@ -1,0 +1,51 @@
+
+service: lesson14
+
+
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  runtime: nodejs16.x
+  environment:
+    tableName: ${self:custom.tableName}
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:*
+          Resource: '*'
+
+custom:
+  tableName: playerInfo
+
+functions:
+  writeData:
+    handler: lambdas/endpoints/writeData.handler
+    events:
+      - http:
+          path: write-data/{ID}
+          method: POST
+          cors: true
+  updateData:
+    handler: lambdas/endpoints/updateData.handler
+    events:
+      - http:
+          path: update-data/{ID}
+          method: PUT
+          cors: true
+
+resources:
+  Resources:
+    MyDynamoDBTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:custom.tableName}
+        AttributeDefinitions:
+          - AttributeName: ID
+            AttributeType: S
+        KeySchema:
+          - AttributeName: ID
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
