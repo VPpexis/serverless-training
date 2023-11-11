@@ -1,0 +1,69 @@
+
+
+service: lesson15
+
+
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  runtime: nodejs16.x
+  environment:
+    tableName: ${self:custom.tableName}
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:*
+          Resource: '*'
+  
+custom:
+  tableName: playerTable
+
+functions:
+  writeData:
+    handler: lambdas/endpoints/writeData.handler
+    events:
+      - http:
+          path: write-data/{ID}
+          method: POST
+          cors: true
+  getData:
+    handler: lambdas/endpoints/getData.handler
+    events:
+      - http:
+          path: get-data/{ID}
+          method: GET
+          cors: true
+  queryData:
+    handler: lambdas/endpoints/queryData.handler
+    events:
+      - http:
+          path: query-data/{game}
+          method: GET
+          cors: true
+
+resources:
+  Resources:
+    MyDynamoDBTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:custom.tableName}
+        AttributeDefinitions:
+          - AttributeName: ID
+            AttributeType: S
+          - AttributeName: game
+            AttributeType: S
+        KeySchema:
+          - AttributeName: ID
+            KeyType: HASH
+
+        GlobalSecondaryIndexes:
+            - IndexName: game-index
+              KeySchema:
+                  - AttributeName: game
+                    KeyType: HASH
+              Projection:
+                ProjectionType: ALL
+        BillingMode: PAY_PER_REQUEST
