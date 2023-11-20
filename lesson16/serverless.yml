@@ -1,0 +1,44 @@
+
+service: lesson16
+
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  runtime: nodejs16.x
+  region: us-east-1
+  environment:
+    imageUploadBucket: ${self:custom.imageUploadBucket}
+    region: ${self:provider.region}
+
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+              - s3:*
+          Resource: '*'
+
+custom:
+  imageUploadBucket: lesson16imagebucketupload
+
+functions:
+  imageUpload:
+    handler: lambdas/endpoints/imageUpload.handler
+    events:
+      - http:
+          path: uploadImage
+          method: POST
+          cors: true
+
+resources:
+  Resources:
+    imageUploadBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+          BucketName: ${self:custom.imageUploadBucket}
+          PublicAccessBlockConfiguration:
+            BlockPublicAcls: false
+          OwnershipControls:
+            Rules:
+              - ObjectOwnership: ObjectWriter

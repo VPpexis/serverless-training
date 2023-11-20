@@ -39,7 +39,7 @@ functions:
 resources:
   Resources:
     MyDynamoDBTable:
-      Type: AWS::DynamoDB::Table
+      Type: AWS::DynamoDB:Table
       Properties:
         TableName: ${self:custom.tableName}
         AttributeDefinitions:

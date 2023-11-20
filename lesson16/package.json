@@ -1,0 +1,7 @@
+{
+  "type": "module",
+  "dependencies": {
+    "file-type": "^18.7.0",
+    "uuid": "^9.0.1"
+  }
+}
